@@ -10,7 +10,7 @@ import {
     AntDesign,
     Feather,
 } from '@expo/vector-icons';
-
+const unreadNumber: number = 7;
 
 const Header = () => {
     return (
@@ -38,7 +38,7 @@ const Header = () => {
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <View style={styles.unreadBadge}>
-                        <Text style={styles.unreadBadgeText}>12</Text>
+                        <Text style={styles.unreadBadgeText}>{unreadNumber}</Text>
                     </View>
                     <Feather
                         name="send"
@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
     unreadBadge: {
         backgroundColor: '#FF3250',
         position: 'absolute',
-        left: 26,
+        left: (unreadNumber > 9 ? 26 : 32),
         bottom: 18,
-        width: 25,
+        width: (unreadNumber > 9 ? 25 : 18),
         height: 18,
         borderRadius: 25,
         justifyContent: 'center',
