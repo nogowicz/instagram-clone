@@ -4,6 +4,7 @@ import {
     ScrollView,
     StyleSheet,
     Pressable,
+    RefreshControl,
 
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,6 +13,7 @@ import BottomNavigation from '../components/BottomNavigation';
 import Header from '../components/Header';
 import Post from '../components/Post';
 import Stories from '../components/Stories';
+import { useState, useCallback } from 'react';
 
 import { posts } from '../data/posts';
 
@@ -31,11 +33,29 @@ type Props = {
     navigation: ProfileScreenNavigationProp;
 };
 
+const wait = (timeout: any) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 const HomeScreen = ({ navigation }: Props) => {
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
     return (
         <SafeAreaView style={styles.container}>
             <Header />
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+
+            >
                 <Stories />
                 {posts.map((post, index) => (
                     <Post
@@ -54,7 +74,7 @@ const HomeScreen = ({ navigation }: Props) => {
 
             </ScrollView>
             <BottomNavigation />
-        </SafeAreaView>
+        </SafeAreaView >
     );
 }
 
