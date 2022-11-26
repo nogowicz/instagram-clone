@@ -13,9 +13,11 @@ import {
     Feather,
     Ionicons,
 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type postProps = {
     nick: string;
@@ -44,11 +46,17 @@ const Post = (props: postProps) => {
     const { width } = Dimensions.get("window")
     const aspectRatio = 750 / 1126
     const height = width * aspectRatio
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const [bookmarkPressed, setBookmarkPressed] = useState(false);
     const [likePressed, setLikePressed] = useState(false);
 
-
+    let like = likes;
+    if (likePressed) {
+        like++;
+    } else {
+        like;
+    }
     const toggleBookmark = () => {
         bookmarkPressed === false ? setBookmarkPressed(true) : setBookmarkPressed(false)
     }
@@ -166,9 +174,9 @@ const Post = (props: postProps) => {
                 </View>
 
             </View>
-            {likes != 0 ? <Text style={[
+            {like != 0 ? <Text style={[
                 styles.profileNickname,
-            ]}>{likes != 0 && likes} {likes === 0 ? null : likes > 1 ? 'likes' : 'like'}</Text> : null}
+            ]}>{like != 0 && like} {like === 0 ? null : like > 1 ? 'likes' : 'like'}</Text> : null}
             <Text style={styles.nickAndPhotoDescription}>
                 <Text style={[
                     styles.profileNickname,
@@ -178,7 +186,23 @@ const Post = (props: postProps) => {
                 </Text>
             </Text>
             <View style={styles.comments}>
-                <Text style={{ color: 'gray', marginLeft: 10, }}>View all {comments.length} comments</Text>
+                <Pressable
+                    onPress={() => {
+                        navigation.navigate('CommentsScreen',
+                            {
+                                nick: nick,
+                                profilePicture: profilePicture,
+                                description: description,
+                                time: time,
+                                comments: comments,
+                            }
+                        );
+                    }}
+                >
+                    <Text
+                        style={{ color: 'gray', marginLeft: 10, }}
+                    >View all {comments.length} comments</Text>
+                </Pressable>
             </View>
             <Text style={styles.photoTimeText}>{time}</Text>
         </View>

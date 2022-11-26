@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     container: {
         paddingVertical: 10,
         borderBottomWidth: 0.2,
-        borderBottomColor: 'white',
+        borderBottomColor: 'gray',
     },
     story: {
         justifyContent: 'center',

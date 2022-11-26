@@ -3,15 +3,35 @@ import {
     SafeAreaView,
     ScrollView,
     StyleSheet,
+    Pressable,
 
 } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import BottomNavigation from '../components/BottomNavigation';
 import Header from '../components/Header';
 import Post from '../components/Post';
 import Stories from '../components/Stories';
 
 import { posts } from '../data/posts';
 
-const HomeScreen = () => {
+
+
+type RootStackParamList = {
+    HomeScreen: undefined;
+};
+
+
+type ProfileScreenNavigationProp = NativeStackNavigationProp<
+    RootStackParamList,
+    'HomeScreen'
+>;
+
+type Props = {
+    navigation: ProfileScreenNavigationProp;
+};
+
+const HomeScreen = ({ navigation }: Props) => {
     return (
         <SafeAreaView style={styles.container}>
             <Header />
@@ -33,6 +53,7 @@ const HomeScreen = () => {
                 ))}
 
             </ScrollView>
+            <BottomNavigation />
         </SafeAreaView>
     );
 }
