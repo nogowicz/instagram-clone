@@ -174,7 +174,7 @@ export const stories = [
     },
     {
         user: users[9].user,
-        profilePicture: users[0].image,
+        profilePicture: users[9].image,
         story: [
             {
                 time: '10m',
