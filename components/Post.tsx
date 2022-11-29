@@ -5,6 +5,7 @@ import {
     Text,
     Image,
     Dimensions,
+
 } from "react-native";
 import {
     Entypo,
@@ -15,9 +16,10 @@ import {
 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
+
+
 
 type postProps = {
     nick: string;
@@ -30,8 +32,13 @@ type postProps = {
     isStory: boolean;
     comments: any;
 };
+const { width } = Dimensions.get("window")
+
+const aspectRatio = 750 / 1126
+const height = width * aspectRatio
 
 const Post = (props: postProps) => {
+
     const {
         nick,
         profilePicture,
@@ -41,11 +48,9 @@ const Post = (props: postProps) => {
         likes,
         time,
         isStory,
-        comments
+        comments,
     } = props;
-    const { width } = Dimensions.get("window")
-    const aspectRatio = 750 / 1126
-    const height = width * aspectRatio
+
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const [bookmarkPressed, setBookmarkPressed] = useState(false);
@@ -63,8 +68,9 @@ const Post = (props: postProps) => {
     const toggleLike = () => {
         likePressed === false ? setLikePressed(true) : setLikePressed(false);
     }
+
     return (
-        <View style={styles.container}>
+        <View style={styles.container} >
             <View style={styles.topBar}>
                 <View style={styles.topBarLeftSide}>
                     {isStory ?
@@ -103,12 +109,12 @@ const Post = (props: postProps) => {
 
                                 }
                             ]}>
-                            <>
-                                <Image
-                                    style={styles.profilePicture}
-                                    source={{ uri: profilePicture }}
-                                />
-                            </>
+
+                            <Image
+                                style={styles.profilePicture}
+                                source={{ uri: profilePicture }}
+                            />
+
                         </Pressable>
 
                     }
@@ -125,15 +131,16 @@ const Post = (props: postProps) => {
                     <Entypo name="dots-three-vertical" size={21} color="white" />
                 </Pressable>
             </View>
-            <View>
-                <Image
-                    source={{ uri: imageUrl }}
-                    style={{
-                        width: width,
-                        height: height,
-                    }}
-                />
-            </View>
+
+            <Image
+                source={{ uri: imageUrl }}
+                style={{
+                    width: width,
+                    height: height,
+                }}
+            />
+
+
             <View style={styles.feedbackContainer}>
                 <View style={styles.feedbackUpperContainer}>
                     <View style={{ flexDirection: 'row' }}>
@@ -152,12 +159,25 @@ const Post = (props: postProps) => {
                                     style={styles.icon}
                                 />}
                         </Pressable>
+                        <Pressable
+                        onPress={() => {
+                            navigation.navigate('CommentsScreen',
+                            {
+                                nick: nick,
+                                profilePicture: profilePicture,
+                                description: description,
+                                time: time,
+                                comments: comments,
+                            })
+                        }}
+                        >
                         <FontAwesome5
                             name="comment"
                             size={24}
                             color="white"
                             style={styles.icon}
                         />
+                        </Pressable>
                         <Feather
                             name="send"
                             size={24}
@@ -205,7 +225,7 @@ const Post = (props: postProps) => {
                 </Pressable>
             </View>
             <Text style={styles.photoTimeText}>{time}</Text>
-        </View>
+        </View >
     );
 }
 
@@ -291,3 +311,4 @@ const styles = StyleSheet.create({
 
     },
 });
+

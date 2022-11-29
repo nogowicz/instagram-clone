@@ -5,22 +5,24 @@ import {
     Text,
     StyleSheet,
     ScrollView,
-
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRef } from 'react';
-
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { users } from '../data/users';
+import { stories } from '../data/stories';
 const Stories = () => {
-
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
     return (
         <View style={styles.container}>
             <ScrollView
                 horizontal={true}
                 bounces={false}
             >
-                <Pressable style={styles.addStory}>
+                <Pressable
+                    style={styles.addStory}
+                >
                     <>
                         <Image
                             style={styles.image}
@@ -45,7 +47,7 @@ const Stories = () => {
                         />
                     </>
                 </Pressable>
-                {users.map((story, index) => (
+                {stories.map((story, index) => (
                     <Pressable
                         style={styles.story}
                         key={index}
@@ -59,7 +61,16 @@ const Stories = () => {
                                     }],
 
                                 }
-                            ]}>
+                            ]}
+                            onPress={() => {
+                                navigation.navigate('StoryScreen',
+                                    {
+                                        nick: story.user,
+                                        story: story.story,
+                                        profilePicture: story.profilePicture,
+                                    })
+                            }}
+                        >
                             <LinearGradient
                                 colors={['#CA1D7E', '#E35157', '#F2703F']}
                                 start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}
@@ -67,7 +78,7 @@ const Stories = () => {
 
                                 <Image
                                     style={styles.image}
-                                    source={{ uri: story.image }}
+                                    source={{ uri: story.profilePicture }}
                                 />
                             </LinearGradient>
                         </Pressable>

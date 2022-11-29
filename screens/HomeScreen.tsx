@@ -1,7 +1,7 @@
 import {
     View,
     SafeAreaView,
-    ScrollView,
+    Animated,
     StyleSheet,
     Pressable,
     RefreshControl,
@@ -44,16 +44,20 @@ const HomeScreen = ({ navigation }: Props) => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
     }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <Header />
-            <ScrollView
+            <Animated.ScrollView
+                showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
                         onRefresh={onRefresh}
                     />
                 }
+                pinchGestureEnabled={false}
+
 
             >
                 <Stories />
@@ -72,7 +76,7 @@ const HomeScreen = ({ navigation }: Props) => {
                     />
                 ))}
 
-            </ScrollView>
+            </Animated.ScrollView>
             <BottomNavigation />
         </SafeAreaView >
     );
